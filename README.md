@@ -46,7 +46,30 @@ bash check_users.sh
 
 ---
 
-### Step 4 — Create the competitor account
+### Step 4 — Scan for pre-saved files
+
+Check the laptop for any pre-saved design or exported files that could indicate cheating. The scan looks for:
+
+- **InDesign** — `.indd`, `.indt`
+- **Illustrator** — `.ai`, `.ait`
+- **Photoshop** — `.psd`, `.psb`
+- **Exported outputs** — `.pdf`, `.eps`, `.svg`, `.png`, `.jpg`, `.jpeg`
+
+**Windows:**
+```powershell
+powershell -ExecutionPolicy Bypass -File check_files.ps1
+```
+
+**macOS:**
+```bash
+sudo bash check_files.sh
+```
+
+If any files are found, review them and delete manually before proceeding. Only continue to the next step once the laptop is clean.
+
+---
+
+### Step 5 — Create the competitor account
 
 Use a generic username (e.g. `competitor1`, `competitor2`) and the standard competition password.
 
@@ -62,15 +85,16 @@ sudo bash create_user.sh competitor1 "Competitor 1" pubverse2026
 
 ---
 
-### Step 5 — Verify the account
+### Step 6 — Verify the account
 
 Log out of the admin account and log in as the new competitor user to confirm it works. Then log back into the admin account before moving on.
 
 ---
 
-### Step 6 — Repeat for each laptop
+### Step 7 — Repeat for each laptop
 
 Each laptop gets one competitor account. Increment the username per laptop (`competitor1`, `competitor2`, etc.).
+
 
 ---
 
@@ -99,6 +123,7 @@ sudo bash remove_user.sh competitor1 --delete-home
 | Script | Purpose |
 |---|---|
 | `check_users.ps1` | List all local user accounts |
+| `check_files.ps1` | Scan for pre-saved design/exported files |
 | `create_user.ps1` | Create a competitor account |
 | `remove_user.ps1` | Remove a competitor account |
 
@@ -107,6 +132,7 @@ sudo bash remove_user.sh competitor1 --delete-home
 | Script | Purpose |
 |---|---|
 | `check_users.sh` | List all local user accounts |
+| `check_files.sh` | Scan for pre-saved design/exported files |
 | `create_user.sh` | Create a competitor account |
 | `remove_user.sh` | Remove a competitor account |
 
