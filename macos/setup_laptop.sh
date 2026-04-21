@@ -46,7 +46,7 @@ echo ""
 echo "[ Step 2 of 4 ] Scanning for pre-saved design files..."
 echo ""
 
-EXCLUDES=("/System" "/Library" "/private" "/usr" "/bin" "/sbin" "/cores" "/dev" "/Applications")
+EXCLUDES=("/Users/*/Library")
 EXCLUDE_ARGS=()
 for dir in "${EXCLUDES[@]}"; do
     EXCLUDE_ARGS+=(-path "$dir" -prune -o)
@@ -58,7 +58,7 @@ for ext in "*.indd" "*.indt" "*.ai" "*.ait" "*.psd" "*.psb" "*.pdf" "*.eps" "*.s
     NAME_ARGS+=(-iname "$ext")
 done
 
-RESULTS=$(find "/" "${EXCLUDE_ARGS[@]}" \( "${NAME_ARGS[@]}" \) -print 2>/dev/null)
+RESULTS=$(find "/Users" "${EXCLUDE_ARGS[@]}" \( "${NAME_ARGS[@]}" \) -print 2>/dev/null)
 COUNT=$(echo "$RESULTS" | grep -c . 2>/dev/null || echo 0)
 
 if [ -z "$RESULTS" ] || [ "$COUNT" -eq 0 ]; then

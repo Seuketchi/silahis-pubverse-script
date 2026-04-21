@@ -11,7 +11,7 @@ $extensions = @(
     "*.png", "*.jpg", "*.jpeg"
 )
 
-$scanRoot = "C:\"
+$scanRoot = "C:\Users"
 $found = @()
 
 Write-Host ""
@@ -22,7 +22,7 @@ Write-Host ""
 foreach ($ext in $extensions) {
     Write-Host "  Checking $ext ..." -NoNewline -ForegroundColor Gray
     $results = Get-ChildItem -Path $scanRoot -Filter $ext -Recurse -ErrorAction SilentlyContinue |
-        Where-Object { $_.FullName -notmatch "Windows|Program Files|AppData\\Local\\Microsoft" }
+        Where-Object { $_.FullName -notmatch "AppData" }
     $found += $results
     if ($results.Count -gt 0) {
         Write-Host " $($results.Count) found" -ForegroundColor Red

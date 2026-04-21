@@ -3,7 +3,7 @@
 # Scans the whole laptop for pre-saved design and exported files that may indicate cheating
 # Usage: sudo bash check_files.sh
 
-SCAN_ROOT="/"
+SCAN_ROOT="/Users"
 EXTENSIONS=(
     # InDesign
     "*.indd" "*.indt"
@@ -16,17 +16,9 @@ EXTENSIONS=(
     "*.png" "*.jpg" "*.jpeg"
 )
 
-# Folders to skip
+# Folders to skip within /Users
 EXCLUDES=(
-    "/System"
-    "/Library"
-    "/private"
-    "/usr"
-    "/bin"
-    "/sbin"
-    "/cores"
-    "/dev"
-    "/Applications"
+    "/Users/*/Library"
 )
 
 echo ""
@@ -49,7 +41,7 @@ for ext in "${EXTENSIONS[@]}"; do
     NAME_ARGS+=(-iname "$ext")
 done
 
-RESULTS=$(find "$SCAN_ROOT" "${EXCLUDE_ARGS[@]}" \( "${NAME_ARGS[@]}" \) -print 2>/dev/null)
+RESULTS=$(find "$SCAN_ROOT" "${EXCLUDE_ARGS[@]}" \( "${NAME_ARGS[@]}" \) -print 2>/dev/null | sort)
 
 COUNT=$(echo "$RESULTS" | grep -c . 2>/dev/null || echo 0)
 
