@@ -19,7 +19,7 @@ $scanRoot = "C:\"
 $found = @()
 
 Write-Host ""
-Write-Host "=== Silahis PubVerse — Pre-Competition File Check ===" -ForegroundColor Cyan
+Write-Host "=== Silahis PubVerse - Pre-Competition File Check ===" -ForegroundColor Cyan
 Write-Host "Scanning $scanRoot for suspicious files..." -ForegroundColor Yellow
 Write-Host ""
 
