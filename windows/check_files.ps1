@@ -4,13 +4,9 @@
 # Usage: powershell -ExecutionPolicy Bypass -File check_files.ps1
 
 $extensions = @(
-    # InDesign
     "*.indd", "*.indt",
-    # Illustrator
     "*.ai", "*.ait",
-    # Photoshop
     "*.psd", "*.psb",
-    # Exported outputs
     "*.pdf", "*.eps", "*.svg",
     "*.png", "*.jpg", "*.jpeg"
 )
@@ -24,10 +20,18 @@ Write-Host "Scanning $scanRoot for suspicious files..." -ForegroundColor Yellow
 Write-Host ""
 
 foreach ($ext in $extensions) {
+    Write-Host "  Checking $ext ..." -NoNewline -ForegroundColor Gray
     $results = Get-ChildItem -Path $scanRoot -Filter $ext -Recurse -ErrorAction SilentlyContinue |
         Where-Object { $_.FullName -notmatch "Windows|Program Files|AppData\\Local\\Microsoft" }
     $found += $results
+    if ($results.Count -gt 0) {
+        Write-Host " $($results.Count) found" -ForegroundColor Red
+    } else {
+        Write-Host " none" -ForegroundColor Green
+    }
 }
+
+Write-Host ""
 
 if ($found.Count -eq 0) {
     Write-Host "No suspicious files found. Laptop is clean." -ForegroundColor Green

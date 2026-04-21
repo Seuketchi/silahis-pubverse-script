@@ -52,10 +52,17 @@ $extensions = @(
 
 $found = @()
 foreach ($ext in $extensions) {
+    Write-Host "  Checking $ext ..." -NoNewline -ForegroundColor Gray
     $results = Get-ChildItem -Path "C:\" -Filter $ext -Recurse -ErrorAction SilentlyContinue |
         Where-Object { $_.FullName -notmatch "Windows|Program Files|AppData\\Local\\Microsoft" }
     $found += $results
+    if ($results.Count -gt 0) {
+        Write-Host " $($results.Count) found" -ForegroundColor Red
+    } else {
+        Write-Host " none" -ForegroundColor Green
+    }
 }
+Write-Host ""
 
 if ($found.Count -eq 0) {
     Write-Host "No suspicious files found. Laptop is clean." -ForegroundColor Green
