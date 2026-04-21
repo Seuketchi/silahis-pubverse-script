@@ -4,79 +4,117 @@ Scripts for managing user accounts on Windows and macOS laptops during the Silah
 
 ---
 
-## Windows (PowerShell)
+## Preparation Workflow
 
-> All scripts must be run as **Administrator**.
+Follow these steps on **each laptop** before the competition starts.
 
-| Script | Purpose |
-|---|---|
-| `check_users.ps1` | List all local user accounts |
-| `create_user.ps1` | Create a single user |
-| `bulk_create_users.ps1` | Create multiple users from a CSV |
-| `remove_user.ps1` | Remove a user (optionally delete profile) |
-| `users_template.csv` | CSV template for bulk creation |
+### Step 1 — Open a terminal with admin/root access
 
-### Usage
+**Windows:** Search for **PowerShell**, right-click it, and select **Run as Administrator**.
 
+**macOS:** Open **Terminal** normally. You will prefix commands with `sudo`.
+
+---
+
+### Step 2 — Navigate to the scripts folder
+
+**Windows:**
 ```powershell
-# Check users
-powershell -ExecutionPolicy Bypass -File check_users.ps1
+cd C:\path\to\silahis-pubverse-script\windows
+```
 
-# Create one user
-powershell -ExecutionPolicy Bypass -File create_user.ps1 -Username "competitor1" -Password "Pass123!" -FullName "Juan dela Cruz"
-
-# Bulk create from CSV
-powershell -ExecutionPolicy Bypass -File bulk_create_users.ps1 -CsvPath "users_template.csv"
-
-# Remove a user
-powershell -ExecutionPolicy Bypass -File remove_user.ps1 -Username "competitor1"
-
-# Remove a user and delete their profile folder
-powershell -ExecutionPolicy Bypass -File remove_user.ps1 -Username "competitor1" -DeleteProfile
+**macOS:**
+```bash
+cd /path/to/silahis-pubverse-script/macos
 ```
 
 ---
 
-## macOS (Bash)
+### Step 3 — Check existing users
 
-> All scripts must be run with **sudo**.
+Verify who is already on the laptop before adding anyone.
 
-| Script | Purpose |
-|---|---|
-| `check_users.sh` | List all local user accounts |
-| `create_user.sh` | Create a single user |
-| `bulk_create_users.sh` | Create multiple users from a CSV |
-| `remove_user.sh` | Remove a user (optionally delete home folder) |
-| `users_template.csv` | CSV template for bulk creation |
+**Windows:**
+```powershell
+powershell -ExecutionPolicy Bypass -File check_users.ps1
+```
 
-### Usage
-
+**macOS:**
 ```bash
-# Check users
 bash check_users.sh
+```
 
-# Create one user
-sudo bash create_user.sh competitor1 "Juan dela Cruz" Pass123!
+---
 
-# Bulk create from CSV
-sudo bash bulk_create_users.sh users_template.csv
+### Step 4 — Create the competitor account
 
-# Remove a user
-sudo bash remove_user.sh competitor1
+Use a generic username (e.g. `competitor1`, `competitor2`) and the standard competition password.
 
-# Remove a user and delete home folder
+**Windows:**
+```powershell
+powershell -ExecutionPolicy Bypass -File create_user.ps1 -Username "competitor1" -Password "pubverse2026" -FullName "Competitor 1"
+```
+
+**macOS:**
+```bash
+sudo bash create_user.sh competitor1 "Competitor 1" pubverse2026
+```
+
+---
+
+### Step 5 — Verify the account
+
+Log out of the admin account and log in as the new competitor user to confirm it works. Then log back into the admin account before moving on.
+
+---
+
+### Step 6 — Repeat for each laptop
+
+Each laptop gets one competitor account. Increment the username per laptop (`competitor1`, `competitor2`, etc.).
+
+---
+
+## After the Competition — Cleanup
+
+Remove the competitor account from each laptop when the competition is done.
+
+**Windows:**
+```powershell
+# Remove user and delete their profile folder
+powershell -ExecutionPolicy Bypass -File remove_user.ps1 -Username "competitor1" -DeleteProfile
+```
+
+**macOS:**
+```bash
+# Remove user and delete their home folder
 sudo bash remove_user.sh competitor1 --delete-home
 ```
 
 ---
 
-## CSV Format
+## Script Reference
 
-Both platforms use the same column structure:
+### Windows
 
-```
-Username,FullName,Password,Description
-competitor1,Juan dela Cruz,Pass123!,Journalism Competition User
-```
+| Script | Purpose |
+|---|---|
+| `check_users.ps1` | List all local user accounts |
+| `create_user.ps1` | Create a competitor account |
+| `remove_user.ps1` | Remove a competitor account |
 
-Edit `users_template.csv` in the relevant platform folder before running bulk scripts.
+### macOS
+
+| Script | Purpose |
+|---|---|
+| `check_users.sh` | List all local user accounts |
+| `create_user.sh` | Create a competitor account |
+| `remove_user.sh` | Remove a competitor account |
+
+---
+
+## Notes
+
+- Always run PowerShell as **Administrator** on Windows or commands will fail with `Access denied`.
+- Always use `sudo` on macOS.
+- The standard competition password is `pubverse2026` — change this each year.
+- macOS scripts use `sysadminctl`, which is compatible with macOS Ventura, Sonoma, and Sequoia.
